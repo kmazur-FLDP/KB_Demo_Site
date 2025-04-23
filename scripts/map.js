@@ -290,3 +290,41 @@ function createSidebar() {
   document.body.appendChild(div);
   return div;
 }
+
+// Zoom buttons for Site 1 and Site 2
+function createZoomButtons() {
+  const zoomBox = document.createElement('div');
+  zoomBox.style.position = 'absolute';
+  zoomBox.style.bottom = '80px';
+  zoomBox.style.left = '10px';
+  zoomBox.style.background = 'white';
+  zoomBox.style.padding = '10px';
+  zoomBox.style.borderRadius = '6px';
+  zoomBox.style.boxShadow = '0 0 5px rgba(0,0,0,0.2)';
+  zoomBox.style.zIndex = '1000';
+
+  const btn1 = document.createElement('button');
+  btn1.textContent = 'Zoom to Site 1';
+  btn1.style.marginBottom = '5px';
+  btn1.style.width = '120px';
+  btn1.onclick = () => {
+    if (site1Parcel) {
+      map.fitBounds(site1Parcel.getBounds(), { padding: [20, 20], maxZoom: 17 });
+    }
+  };
+
+  const btn2 = document.createElement('button');
+  btn2.textContent = 'Zoom to Site 2';
+  btn2.style.width = '120px';
+  btn2.onclick = () => {
+    if (site2Parcel) {
+      map.fitBounds(site2Parcel.getBounds(), { padding: [20, 20], maxZoom: 17 });
+    }
+  };
+
+  zoomBox.appendChild(btn1);
+  zoomBox.appendChild(btn2);
+  document.body.appendChild(zoomBox);
+}
+
+createZoomButtons();
