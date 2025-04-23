@@ -52,6 +52,21 @@
       color: #ccc;
     }
 
+    footer {
+      background-color: #f1f1f1;
+      padding: 20px;
+      font-size: 14px;
+      text-align: center;
+      color: #333;
+      border-top: 1px solid #ccc;
+      width: 100%;
+      box-sizing: border-box;
+      min-height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
     #theme-toggle {
       position: absolute;
       top: 10px;
@@ -76,11 +91,9 @@
     }
 
     #map {
-      height: 100vh;
+      height: calc(100vh - 160px); /* Leave more space for the footer */
       width: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
+      position: relative;
       z-index: 1;
     }
   </style>
@@ -138,17 +151,13 @@
     });
   </script>
 
-</footer>
   <script>
     const toggleBtn = document.getElementById('theme-toggle');
-
     toggleBtn.addEventListener('click', () => {
       document.body.classList.toggle('dark-theme');
       // Optional: add code here to switch base map layers if needed
     });
   </script>
   <script src="scripts/map.js"></script>
-</body>
-</html>
 </body>
 </html>
