@@ -62,7 +62,23 @@ loadLayer('data/Site_1/Project_Zoning.json', {
 });
 
 loadLayer('data/Site_1/FEMA.json', {
-  style: { color: '#4169e1', weight: 1, fillOpacity: 0.3 },
+  filter: feature => feature.properties?.FLD_ZONE !== 'X',
+  style: feature => {
+    const zone = feature.properties?.FLD_ZONE || '';
+    const colorMap = {
+      'AE': '#ffcc00',
+      'A': '#ffa500',
+      'VE': '#ff6666',
+      'AO': '#cc99ff',
+      'AH': '#99ccff',
+      'D': '#cccccc'
+    };
+    return {
+      color: colorMap[zone] || '#999999',
+      weight: 1,
+      fillOpacity: 0.4
+    };
+  },
   onEachFeature: (feature, layer) => {
     layer.on('click', () => showSidebar('Site 1: FEMA', feature.properties));
   }
@@ -119,7 +135,23 @@ loadLayer('data/Site_2/Site2_Zoning.geojson', {
 });
 
 loadLayer('data/Site_2/Site2_FEMA.geojson', {
-  style: { color: '#2980b9', weight: 1, fillOpacity: 0.3 },
+  filter: feature => feature.properties?.FLD_ZONE !== 'X',
+  style: feature => {
+    const zone = feature.properties?.FLD_ZONE || '';
+    const colorMap = {
+      'AE': '#ffcc00',
+      'A': '#ffa500',
+      'VE': '#ff6666',
+      'AO': '#cc99ff',
+      'AH': '#99ccff',
+      'D': '#cccccc'
+    };
+    return {
+      color: colorMap[zone] || '#999999',
+      weight: 1,
+      fillOpacity: 0.4
+    };
+  },
   onEachFeature: (feature, layer) => {
     layer.on('click', () => showSidebar('Site 2: FEMA', feature.properties));
   }
@@ -223,23 +255,24 @@ setTimeout(() => {
     '<strong style="pointer-events:none">Site 1</strong>': L.layerGroup([]),
     'Site 1 - Parcel': overlays['Site 1 - Parcel'],
     'Site 1 - Zoning': overlays['Site 1 - Zoning'],
-    'Site 1 - FEMA': overlays['Site 1 - FEMA'],
-    'Site 1 - Wetlands': overlays['Site 1 - Wetlands'],
-    'Site 1 - Floodplain': overlays['Site 1 - Floodplain'],
+    // FEMA label: keep as is, but can add color box for consistency
+    'FEMA Flood Zones (Site 1)': overlays['Site 1 - FEMA'],
+    '<span style="color:#2ecc71;">&#9632;</span> Wetlands - Estimated (Site 1)': overlays['Site 1 - Wetlands'],
+    '<span style="color:#f1c40f;">&#9632;</span> Floodplain - SWFWMD (Site 1)': overlays['Site 1 - Floodplain'],
 
     '<strong style="pointer-events:none">Site 2</strong>': L.layerGroup([]),
     'Site 2 - Parcel': overlays['Site 2 - Parcel'],
     'Site 2 - Zoning': overlays['Site 2 - Zoning'],
-    'Site 2 - FEMA': overlays['Site 2 - FEMA'],
-    'Site 2 - Wetlands': overlays['Site 2 - Wetlands'],
-    'Site 2 - Floodplain': overlays['Site 2 - Floodplain'],
+    'FEMA Flood Zones (Site 2)': overlays['Site 2 - FEMA'],
+    '<span style="color:#1abc9c;">&#9632;</span> Wetlands - Estimated (Site 2)': overlays['Site 2 - Wetlands'],
+    '<span style="color:#f1c40f;">&#9632;</span> Floodplain - SWFWMD (Site 2)': overlays['Site 2 - Floodplain'],
 
     '<strong style="pointer-events:none">Global</strong>': L.layerGroup([]),
     'USA Future Land Use': overlays['USA Future Land Use'],
     'USA Expansion Area': overlays['USA Expansion Area'],
     
-    'Walmart': overlays['Walmart'],
-    'Schools': overlays['Schools']
+    '<span style="color:blue;">&#9632;</span> Walmart': overlays['Walmart'],
+    '<span style="color:deeppink;">&#9632;</span> Schools': overlays['Schools']
   };
 
   L.control.layers(baseMaps, groupedOverlays, { collapsed: false }).addTo(map);
