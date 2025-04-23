@@ -23,6 +23,12 @@ const baseMaps = {
 let overlays = {};
 let site1Parcel, site2Parcel;
 
+let zoningLabels1 = L.layerGroup();
+let zoningLabels2 = L.layerGroup();
+
+let femaLabels1 = L.layerGroup();
+let femaLabels2 = L.layerGroup();
+
 // Utility
 function loadLayer(url, options = {}, callback) {
   fetch(url)
@@ -55,9 +61,25 @@ loadLayer('data/Site_1/Project_Zoning.json', {
   },
   onEachFeature: (feature, layer) => {
     layer.on('click', () => showSidebar('Site 1: Zoning', feature.properties));
+    layer.bindTooltip(feature.properties?.NZONE_DESC || '', {
+      permanent: true,
+      direction: 'center',
+      className: 'zoning-label'
+    });
+    zoningLabels1.addLayer(layer);
   }
 }, layer => {
-  overlays['Site 1 - Zoning'] = layer;
+  overlays['Site 1 - Zoning'] = L.layerGroup([layer]);
+  map.on('overlayadd', e => {
+    if (e.name.includes('Site 1 - Zoning')) {
+      zoningLabels1.addTo(map);
+    }
+  });
+  map.on('overlayremove', e => {
+    if (e.name.includes('Site 1 - Zoning')) {
+      zoningLabels1.removeFrom(map);
+    }
+  });
   maybeFitBounds();
 });
 
@@ -81,9 +103,25 @@ loadLayer('data/Site_1/FEMA.json', {
   },
   onEachFeature: (feature, layer) => {
     layer.on('click', () => showSidebar('Site 1: FEMA', feature.properties));
+    layer.bindTooltip(feature.properties?.FLD_ZONE || '', {
+      permanent: true,
+      direction: 'center',
+      className: 'zoning-label'
+    });
+    femaLabels1.addLayer(layer);
   }
 }, layer => {
-  overlays['Site 1 - FEMA'] = layer;
+  overlays['Site 1 - FEMA'] = L.layerGroup([layer]);
+  map.on('overlayadd', e => {
+    if (e.name.includes('Site 1 - FEMA')) {
+      femaLabels1.addTo(map);
+    }
+  });
+  map.on('overlayremove', e => {
+    if (e.name.includes('Site 1 - FEMA')) {
+      femaLabels1.removeFrom(map);
+    }
+  });
   maybeFitBounds();
 });
 
@@ -128,9 +166,25 @@ loadLayer('data/Site_2/Site2_Zoning.geojson', {
   },
   onEachFeature: (feature, layer) => {
     layer.on('click', () => showSidebar('Site 2: Zoning', feature.properties));
+    layer.bindTooltip(feature.properties?.NZONE_DESC || '', {
+      permanent: true,
+      direction: 'center',
+      className: 'zoning-label'
+    });
+    zoningLabels2.addLayer(layer);
   }
 }, layer => {
-  overlays['Site 2 - Zoning'] = layer;
+  overlays['Site 2 - Zoning'] = L.layerGroup([layer]);
+  map.on('overlayadd', e => {
+    if (e.name.includes('Site 2 - Zoning')) {
+      zoningLabels2.addTo(map);
+    }
+  });
+  map.on('overlayremove', e => {
+    if (e.name.includes('Site 2 - Zoning')) {
+      zoningLabels2.removeFrom(map);
+    }
+  });
   maybeFitBounds();
 });
 
@@ -154,9 +208,25 @@ loadLayer('data/Site_2/Site2_FEMA.geojson', {
   },
   onEachFeature: (feature, layer) => {
     layer.on('click', () => showSidebar('Site 2: FEMA', feature.properties));
+    layer.bindTooltip(feature.properties?.FLD_ZONE || '', {
+      permanent: true,
+      direction: 'center',
+      className: 'zoning-label'
+    });
+    femaLabels2.addLayer(layer);
   }
 }, layer => {
-  overlays['Site 2 - FEMA'] = layer;
+  overlays['Site 2 - FEMA'] = L.layerGroup([layer]);
+  map.on('overlayadd', e => {
+    if (e.name.includes('Site 2 - FEMA')) {
+      femaLabels2.addTo(map);
+    }
+  });
+  map.on('overlayremove', e => {
+    if (e.name.includes('Site 2 - FEMA')) {
+      femaLabels2.removeFrom(map);
+    }
+  });
   maybeFitBounds();
 });
 
