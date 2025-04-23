@@ -173,47 +173,33 @@ loadLayer('data/USA_Expansion.json', {
   maybeFitBounds();
 });
 
-// Icons
-const publixIcon = L.icon({
-  iconUrl: 'assets/marker-publix.png',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41]
-});
-
-const walmartIcon = L.icon({
-  iconUrl: 'assets/marker-walmart.png',
-  iconSize: [25, 41],
-  iconAnchor: [12, 41]
-});
 
 // Points
-loadLayer('data/FL_Publix.json', {
-  pointToLayer: (feature, latlng) => L.marker(latlng, { icon: publixIcon }),
-  onEachFeature: (feature, layer) => {
-    layer.bindPopup(`<strong>Publix</strong><br>${feature.properties?.Name || ''}`);
-  }
-}, layer => {
-  overlays['Publix'] = layer;
-  maybeFitBounds();
-});
 
-loadLayer('data/FL_Walmarts.json', {
-  pointToLayer: (feature, latlng) => L.marker(latlng, { icon: walmartIcon }),
+loadLayer('data/FL_Walmarts.geojson', {
+  pointToLayer: (feature, latlng) =>
+    L.circleMarker(latlng, {
+      radius: 8,
+      color: 'blue',
+      fillColor: 'blue',
+      fillOpacity: 1
+    }),
   onEachFeature: (feature, layer) => {
     layer.bindPopup(`<strong>Walmart</strong><br>${feature.properties?.Name || ''}`);
   }
 }, layer => {
   overlays['Walmart'] = layer;
   maybeFitBounds();
+  console.log('✅ Walmart layer loaded:', layer.getLayers().length, 'features');
 });
 
 loadLayer('data/FL_Schools.json', {
   pointToLayer: (feature, latlng) =>
     L.circleMarker(latlng, {
-      radius: 8,
-      color: 'yellow',
-      fillColor: 'yellow',
-      fillOpacity: 0.8
+      radius: 10,
+      color: 'deeppink',
+      fillColor: 'deeppink',
+      fillOpacity: 0.9
     }),
   onEachFeature: (feature, layer) => {
     layer.bindPopup(`<strong>School</strong><br>${feature.properties?.Name || ''}`);
@@ -251,7 +237,7 @@ setTimeout(() => {
     '<strong style="pointer-events:none">Global</strong>': L.layerGroup([]),
     'USA Future Land Use': overlays['USA Future Land Use'],
     'USA Expansion Area': overlays['USA Expansion Area'],
-    'Publix': overlays['Publix'],
+    
     'Walmart': overlays['Walmart'],
     'Schools': overlays['Schools']
   };
