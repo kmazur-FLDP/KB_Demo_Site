@@ -9,8 +9,84 @@
     rel="stylesheet"
     href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
   />
+  <style>
+    #intro-modal {
+      position: absolute;
+      top: 100px;
+      left: 50px;
+      z-index: 2000;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 16px;
+      max-width: 320px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+      border-radius: 8px;
+    }
+
+    #intro-modal h2 {
+      margin-top: 0;
+      font-size: 18px;
+    }
+
+    #intro-modal button {
+      margin-top: 10px;
+      padding: 6px 12px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    body.dark-theme {
+      background-color: #1e1e1e;
+      color: #eee;
+    }
+
+    body.dark-theme .modal-content,
+    body.dark-theme .leaflet-control,
+    body.dark-theme .leaflet-popup-content-wrapper,
+    body.dark-theme .leaflet-control-layers {
+      background: #2c2c2c;
+      color: #eee;
+    }
+
+    body.dark-theme footer {
+      background-color: #2c2c2c;
+      color: #ccc;
+    }
+
+    #theme-toggle {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 2000;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 4px;
+      background: #fff;
+      box-shadow: 0 0 6px rgba(0,0,0,0.2);
+      cursor: pointer;
+    }
+
+    body.dark-theme #theme-toggle {
+      background: #444;
+      color: #fff;
+    }
+
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    #map {
+      height: 100vh;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+  </style>
 </head>
 <body>
+  <button id="theme-toggle" title="Toggle Light/Dark Mode">🌓</button>
   <header>
     <div class="header-content">
       <img src="assets/fldp_final_color.png" alt="FLDP Logo" class="logo" />
@@ -21,14 +97,58 @@
   <main>
     <div id="map"></div>
   </main>
+  <div id="intro-modal">
+    <div class="modal-content">
+      <h2>Welcome to the FLDP GIS Demo</h2>
+      <p>This interactive map highlights two potential development sites within the proposed expansion of the Hillsborough County Urban Service Area, along with additional layers including zoning, wetlands, SWFWMD floodplains, and FEMA data.</p>
+      <p>Use the layer toggle on the right to turn layers on or off. Click on features for more information.</p>
+      <button id="close-intro">Got it</button>
+    </div>
+  </div>
 
   <footer>
-    <p>Florida Land Design & Permitting, Inc. | info@fldandp.com | (727) 555-1234</p>
+    <p>
+      Florida Land Design & Permitting, Inc. |
+      <a href="mailto:info@fldandp.com">info@fldandp.com</a> |
+      <a href="https://fldandp.com" target="_blank">fldandp.com</a> |
+      (727) 478-2421
+    </p>
   </footer>
 
   <script
     src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
   ></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const mapDiv = document.getElementById('map');
+      if (!mapDiv) {
+        console.error("Map container #map not found.");
+      } else {
+        console.log("Map container detected and ready.");
+      }
+    });
+  </script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const modal = document.getElementById('intro-modal');
+      const closeBtn = document.getElementById('close-intro');
+      closeBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+      });
+    });
+  </script>
+
+</footer>
+  <script>
+    const toggleBtn = document.getElementById('theme-toggle');
+
+    toggleBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark-theme');
+      // Optional: add code here to switch base map layers if needed
+    });
+  </script>
   <script src="scripts/map.js"></script>
+</body>
+</html>
 </body>
 </html>
